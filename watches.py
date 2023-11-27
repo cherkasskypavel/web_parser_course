@@ -2,11 +2,16 @@ from bs4 import BeautifulSoup
 import csv
 import requests
 
-'''                                           В ПРОЦЕССЕ ДОРАБОТКИ                                        '''
+'''
+Программа для получения информации по каждым часам в тестовом интернет-магазине.
 
-BASE_URL = 'https://parsinger.ru/html/'
-FILE_NAME = 'WATCH.csv'
-HEADERS = [
+Проходимся по всем страницам категории, пока 
+'''
+
+
+BASE_URL = 'https://parsinger.ru/html/' ##  к этому урл прибавляем ссылки на товары
+FILE_NAME = 'WATCH.csv' ##  csv-файл для записей по товарам
+HEADERS = [             ##  столбцы, по которым получаем информацию
     'Наименование',
     'Артикул',
     'Бренд',
@@ -38,7 +43,7 @@ def update_csv(file: str, data: tuple) -> None:
         with open(file, mode='a', newline='', encoding='utf-8-sig') as file:
             writer = csv.writer(file, delimiter=';')
             name, article, description, stock, price, old_price, url = data
-            row = article, *description, stock, price, old_price, url
+            row = name, article, *description, stock, price, old_price, url
             writer.writerow(row)
     except Exception as err:
         print(f'Произошла ошибка при записи файла: {err}')
