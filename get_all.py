@@ -28,9 +28,9 @@ def get_category_products(start_url: str, session: requests.Session) -> list:  #
     return res_list
 
 def get_products_from_page(html: str) -> zip:
-    soup = BeautifulSoup(html)
-    names = [a.text for a in soup.select('.item .name_item')]
-    descriptions = [[li.text.split(': ')[1] for li in div.select('.description li')] for div in soup.select('.item')]
+    soup = BeautifulSoup(html, 'lxml')
+    names = [a.text.strip() for a in soup.select('.item .name_item')]
+    descriptions = [[li.text.split(': ')[1].strip() for li in div.select('.description li')] for div in soup.select('.item')]
     prices = [p.text for p in soup.select('.item .price')]
     return zip(names, descriptions, prices)
 
