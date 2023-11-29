@@ -11,7 +11,6 @@ import lxml
 from requests import RequestException, session, Session
 
 
-
 BASE_URL = 'https://parsinger.ru/html/'                         ##  Страница начала работы программы
 INIT_PAGE_URL = 'https://parsinger.ru/html/index1_page_1.html'  ##  Начальная страница
 FILE_NAME = 'ALL_PRODUCTS_WITH_DETAILS.csv'
@@ -44,6 +43,7 @@ def get_info_from_product_page(html: str) -> list:  ##  вернет списо�
     price = soup.select_one('#price').text
     old_price = soup.select_one('#old_price').text
     return [name, article, brand, model, stock, price, old_price]
+
 def get_category_products(start_url: str, session: Session) -> list:
     '''
     Переходим на 1 страницу категории, получаем список страниц категории,
