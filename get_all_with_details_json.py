@@ -44,6 +44,8 @@ def get_info_from_product_page(response: Response) -> dict:
     description = {
         li['id']: li.text.split(': ')[1].strip() for li in soup.select('.description li')
     }
+    ##  В ключах основного словаря большинство ключей написал вручную,
+    ##  так как в html-странице ключ атрибута id отличается от ключей в примере задания
     return {
         'name': soup.select_one('#p_header').text.strip(),
         soup.select_one('.article')['class'][0]: soup.select_one('.article').text.split(': ')[1].strip(),
@@ -82,9 +84,11 @@ def main():
                             product_response = S.get(product)
                             product_response.raise_for_status()
                             product_response.encoding = 'utf-8'
+                            ##  делаем апдейт словаря, добавляя к нему пару {'categories': <Tag['id']>}
                             product_info = get_info_from_product_page(product_response)
                             res = {'categories': category_id}
                             res.update(product_info)
+                            ###########################################################################
                             res_json.append(res)
             except RequestException as req_err:
                 print(f'Произошла ошибка при соединении: {req_err}')
